@@ -4,11 +4,6 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 import "./Token.sol";
 
-// [X] Manage Pool
-// [X] Manage Deposits
-// [X] Faciliate Swaps (i.e. Trades)
-// [ ] Manage Withdraws
-
 contract AMM {
     Token public token1;
     Token public token2;
@@ -22,14 +17,14 @@ contract AMM {
     uint256 constant PRECISION = 10 ** 18;
 
     event Swap(
-      address user,
-      address tokenGive,
-      uint256 tokenGiveAmount,
-      address tokenGet,
-      uint256 tokenGetAmount,
-      uint256 token1Balance,
-      uint256 token2Balance,
-      uint256 timestamp
+        address user,
+        address tokenGive,
+        uint256 tokenGiveAmount,
+        address tokenGet,
+        uint256 tokenGetAmount,
+        uint256 token1Balance,
+        uint256 token2Balance,
+        uint256 timestamp
     );
 
     constructor(Token _token1, Token _token2) {
@@ -121,14 +116,14 @@ contract AMM {
 
         // Emit an event
         emit Swap(
-          msg.sender,
-          address(token1),
-          _token1Amount,
-          address(token2),
-          token2Amount,
-          token1Balance,
-          token2Balance,
-          block.timestamp
+            msg.sender,
+            address(token1),
+            _token1Amount,
+            address(token2),
+            token2Amount,
+            token1Balance,
+            token2Balance,
+            block.timestamp
         );
     }
 
@@ -148,7 +143,7 @@ contract AMM {
         require(token1Amount < token1Balance, "swap amount too large");
     }
 
-      function swapToken2(
+    function swapToken2(
         uint256 _token2Amount
     ) external returns (uint256 token1Amount) {
         // Calculate Token 1 Amount
@@ -162,15 +157,45 @@ contract AMM {
 
         // Emit an event
         emit Swap(
-          msg.sender,
-          address(token2),
-          _token2Amount,
-          address(token1),
-          token1Amount,
-          token1Balance,
-          token2Balance,
-          block.timestamp
+            msg.sender,
+            address(token2),
+            _token2Amount,
+            address(token1),
+            token1Amount,
+            token1Balance,
+            token2Balance,
+            block.timestamp
         );
     }
 
+    // Determine how many tokens will be withdrawn
+    function calculateWithdrawAmount(
+        uint256 _share
+    ) public view returns (uint256 token1Amount, uint256 token2Amount) {
+        require(_share <= totalShares, "must be less than total shares");
+        token1Amount = (_share * token1Balance) / totalShares;
+        token2Amount = (_share * token2Balance) / totalShares;
+    }
+
+    // Removes liquidity from the pool
+    function removeLiquidity(
+        uint256 _share
+    ) external returns (uint256 token1Amount, uint256 token2Amount) {
+        require(
+            _share <= shares[msg.sender],
+            "cannot withdraw more shares than you have"
+        );
+
+        (token1Amount, token2Amount) = calculateWithdrawAmount(_share);
+
+        shares[msg.sender] -= _share;
+        totalShares -= _share;
+
+        token1Balance -= token1Amount;
+        token2Balance -= token2Amount;
+        K = token1Balance * token2Balance;
+
+        token1.transfer(msg.sender, token1Amount);
+        token2.transfer(msg.sender, token2Amount);
+    }
 }
