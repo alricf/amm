@@ -56,8 +56,6 @@ function App() {
 
         <Navigation />
 
-        <hr />
-
         <Tabs />
 
         <Routes>
