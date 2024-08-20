@@ -78,7 +78,7 @@ const Deposit = () => {
 
   return (
     <div>
-      <Card style={{ maxWidth: '450px' }} className='mx-auto px-4'>
+      <Card style={{ maxWidth: '450px', backgroundColor: '#61FF8A' }} className='mx-auto px-4'>
         {account ? (
           <Form onSubmit={depositHandler} style={{ maxWidth: '450px', margin: '50px auto' }}>
             <Row>
