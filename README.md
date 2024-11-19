@@ -12,7 +12,7 @@ To get started with this project, follow these steps:
 4. Run the react client server with `npm start`.
 5. Add the Hardhat network to a blockchain wallet such as MetaMask and connect to it.
 6. Import the first 5 Hardhat accounts (Account #0, Account #1, Account #2, Account #3, Account #4) onto MetaMask (https://support.metamask.io/managing-my-wallet/accounts-and-addresses/how-to-import-an-account/#importing-using-a-private-key).
-7. Deploy the contract to the local hardhat blockchain with `npx hardhat run scripts/deploy.js --network localhost.
+7. Deploy the contract to the local hardhat blockchain with `npx hardhat run scripts/deploy.js --network localhost`.
 8. Seed the AMM by running `npx hardhat run scripts/seed.js --network localhost`.
 9. Connect to the website with any of the imported Hardhat accounts and interact with the AMM by swapping tokens, depositing liquidty, withdrawing shares and charting the price of tokens. Enjoy!
 
