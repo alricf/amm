@@ -1,6 +1,10 @@
-# AMM (Automated Market Maker)
+# Dragon Swap - AMM (Automated Market Maker)
 
-This repository contains the implementation of an AMM (Automated Market Maker) contract in Solidity along with a front-end user interface that allows a user to connect and interact with the AMM contract.
+<div align="center">
+<img src="./src/dragonSwaplogo.png" alt="Logo" width="300" style="border-radius: 50%;"/>
+</div>
+
+Dragon Swap is an implementation of an AMM (Automated Market Maker) contract in Solidity along with a front-end user interface that allows a user to connect and interact with the AMM contract.
 
 ## Getting Started
 
